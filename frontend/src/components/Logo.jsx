@@ -1,7 +1,7 @@
 
 const Logo = () => {
   return (
-    <h2>{"PaySheet"}</h2>
+    <h2 className="content__logo">{"PaySheet"}</h2>
   )
 }
 

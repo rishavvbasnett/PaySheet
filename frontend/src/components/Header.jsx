@@ -1,6 +1,5 @@
+const Header = (props) => {
+  return <h3 className="content__header">{props.text}</h3>;
+};
 
-const Header = () => {
-  return (<h3>Weekly Paycheck Records</h3>)
-}
-
-export default Header
+export default Header;
