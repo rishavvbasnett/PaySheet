@@ -19,7 +19,10 @@ const Week = (props) => {
   );
 
   return (
-    <p className="paycheck__week">{`${formattedWeekStart} - ${formattedWeekEnd}`}</p>
+    <p className="paycheck__week">
+      <span className="paycheck__weekStart">{formattedWeekStart} –</span>
+      <span className="paycheck__weekEnd">{formattedWeekEnd}</span>
+    </p>
   );
 };
 

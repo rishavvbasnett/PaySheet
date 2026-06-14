@@ -7,8 +7,10 @@ const Home = (props) => {
   const setRecords = props.setRecords;
 
   const setCurrentPage = props.setCurrentPage;
+  const setEditingPaycheck = props.setEditingPaycheck;
 
   const handleNewPaycheck = () => {
+    setEditingPaycheck(null);
     setCurrentPage("formpage");
   };
 
@@ -46,6 +48,8 @@ const Home = (props) => {
               paycheck={paycheck}
               records={records}
               setRecords={setRecords}
+              setCurrentPage={setCurrentPage}
+              setEditingPaycheck={setEditingPaycheck}
             />
           );
         })}

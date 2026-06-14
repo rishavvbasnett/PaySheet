@@ -7,6 +7,7 @@ import Form from "./components/formpage/Form.jsx";
 const App = () => {
   const [records, setRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState("homepage");
+  const [editingPaycheck, setEditingPaycheck] = useState(null);
 
   const fetchRecords = () => {
     api.fetchRecords().then((records) => {
@@ -16,9 +17,23 @@ const App = () => {
 
   const renderPage = () => {
     if (currentPage == "homepage") {
-      return <Home records={records} setRecords={setRecords} setCurrentPage={setCurrentPage} />;
+      return (
+        <Home
+          records={records}
+          setRecords={setRecords}
+          setCurrentPage={setCurrentPage}
+          setEditingPaycheck={setEditingPaycheck}
+        />
+      );
     } else if (currentPage == "formpage") {
-      return <Form setCurrentPage={setCurrentPage} setRecords={setRecords} />;
+      return (
+        <Form
+          setCurrentPage={setCurrentPage}
+          setRecords={setRecords}
+          editingPaycheck={editingPaycheck}
+          setEditingPaycheck={setEditingPaycheck}
+        />
+      );
     }
   };
 
@@ -28,7 +43,7 @@ const App = () => {
 
   return (
     <div className="app">
-      <Logo />
+      <Logo currentPage={currentPage} setCurrentPage={setCurrentPage} />
       {renderPage()}
     </div>
   );

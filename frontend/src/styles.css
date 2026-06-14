@@ -1,376 +1,795 @@
-* {
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap");
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --main-blue: 0, 131, 255;
+  --main-green: 80, 176, 100;
+  --main-red: 200 96 106;
+  --main-bg: #fbfcfe;
+  --text: #1a1a1a;
+  --text-soft: #3d3d4a;
+  --text-muted: #5a5a6c;
+  --day-line-name: #171717;
+  --day-line-detail: #4a4a5a;
+  --expected-amount: #1a3557;
+  --btn-confirm-green: 72 168 95;
+  --btn-clear-red: 200 50 64;
+  --header-home-rose: 218 48 58;
+  --card-bg: #ffffff;
+  --card-border: #e6e8f0;
+  --input-bg: #f6f7fb;
+  --input-border: #d0d4e4;
+  --notice-bg: rgba(0, 76, 152, 0.94);
+  --font:
+    Rubik, "Google Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
 }
 
 body {
-  margin: 0;
-  background-color: #f4f6fa;
-  color: #1f2937;
-}
-
-.app {
-  max-width: 700px;
-  margin: 0 auto;
+  font-family: var(--font);
+  background: var(--main-bg);
   min-height: 100vh;
-  background-color: #f4f6fa;
+  min-height: 100dvh;
+  color: var(--text);
+  font-size: clamp(15px, 2.8vw, 16px);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: max(6rem, calc(1.1rem + env(safe-area-inset-bottom, 0px)));
 }
 
-/* ---------- Logo / Top bar ---------- */
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+/* ===== App / Header (logo bar) ===== */
+.app {
+  width: 100%;
+}
+
 .content__logo {
-  background-color: #4f7cff;
-  color: #ffffff;
+  position: relative;
+  background: rgb(var(--main-blue));
+  color: white;
+  font-weight: 700;
+  letter-spacing: 1.2px;
   text-align: center;
-  margin: 0;
-  padding: 24px 16px;
-  font-size: 28px;
-  font-weight: 800;
+  font-size: clamp(1.6rem, 1.3rem + 1vw, 2.2rem);
+  padding: max(0px, env(safe-area-inset-top, 0px)) clamp(1rem, 6vw, 5rem);
+  min-height: clamp(65px, 8vw, 90px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* ---------- Header (page titles) ---------- */
+/* Home button (top-left) */
+.app__home {
+  position: absolute;
+  left: clamp(0.65rem, 2.2vw, 1.25rem);
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  border-radius: 8px;
+  background: rgb(var(--header-home-rose));
+  color: white;
+  font-weight: 600;
+  font-size: clamp(0.9rem, 2.45vw, 1.02rem);
+  padding: clamp(7px, 1.8vw, 10px) clamp(0.9rem, 3vw, 1.6rem);
+  cursor: pointer;
+  letter-spacing: 0.12px;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.12) inset,
+    0 1px 2px rgba(0, 0, 0, 0.18);
+  -webkit-tap-highlight-color: transparent;
+}
+.app__home:hover {
+  background: rgb(200 40 50);
+  transform: translateY(calc(-50% - 1px));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.1) inset,
+    0 2px 4px rgba(0, 0, 0, 0.22);
+}
+
+/* ===== Content wrapper ===== */
+.home,
+.form {
+  margin: 0 auto;
+  max-width: 900px;
+  width: 100%;
+  padding: clamp(1.5rem, 2.25vw, 2.25rem)
+    max(0.75rem, env(safe-area-inset-left, 0px));
+  box-sizing: border-box;
+}
+
+/* ===== Page title (Your Weekly Pay) ===== */
 .content__header {
   text-align: center;
-  font-size: 26px;
-  font-weight: 800;
-  color: #1f2937;
-  margin: 24px 0;
+  font-weight: 700;
+  color: var(--text);
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 1.95rem);
+  letter-spacing: 0.6px;
+  margin-bottom: clamp(1.35rem, 2.625vw, 2.25rem);
 }
 
-/* ---------- Home page ---------- */
-.home {
-  padding: 0 16px 24px;
-}
-
+/* ===== Records list ===== */
 .home__paycheck {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: clamp(1.65rem, 2.625vw, 2.25rem);
+  min-height: 120px;
 }
 
-.home__buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-/* ---------- Paycheck card ---------- */
+/* ===== Paycheck card ===== */
 .paycheck {
-  background-color: #ffffff;
-  border-radius: 10px;
-  border-left: 6px solid #d9534f;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  padding: 16px 20px;
+  background: var(--card-bg);
+  color: var(--text);
+  padding: 1.1rem 1.3rem;
+  border-radius: 12px;
+  position: relative;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+  overflow: hidden;
+  cursor: pointer;
+}
+.paycheck::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 100%;
+  background: rgb(var(--main-red));
+  transition:
+    width 0.2s ease,
+    background 0.2s ease;
+}
+.paycheck:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+.paycheck:hover::before {
+  width: 10px;
+}
+/* Paid (received) cards → green accent */
+.paycheck--paid::before {
+  background: rgb(var(--main-green));
 }
 
-.paycheck:has(.paycheck__received) {
-  border-left-color: #4caf50;
-}
-
+/* Card header: week / expected / received */
 .paycheck__mainInfo {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: 0.75rem;
+  padding: 0.08rem 0.4rem 0.42rem;
+  border-bottom: 1px dashed var(--card-border);
 }
-
 .paycheck__week {
-  font-size: 18px;
+  grid-column: 1 / 2;
   font-weight: 700;
-  color: #1e3a8a;
+  font-size: 1.07rem;
+  color: var(--expected-amount);
+  letter-spacing: 0.2px;
+  line-height: 1.5;
 }
-
+.paycheck__weekStart,
+.paycheck__weekEnd {
+  display: block;
+}
 .paycheck__expected {
-  font-size: 16px;
+  grid-column: 2 / 3;
   font-weight: 700;
-  color: #1e3a8a;
+  font-size: 1.08rem;
+  color: rgb(var(--main-red));
+  white-space: nowrap;
+  text-align: center;
+  align-self: center;
 }
-
-.paycheck:has(.paycheck__received) .paycheck__expected {
-  color: #2e7d32;
-}
-
-.paycheck__received {
-  font-size: 16px;
-  font-weight: 700;
-  color: #2e7d32;
-}
-
+.paycheck__received,
 .paycheck__pending {
-  font-size: 14px;
+  grid-column: 3 / 4;
   font-weight: 700;
-  color: #d9534f;
+  font-size: 1.08rem;
+  white-space: nowrap;
+  text-align: right;
+}
+.paycheck__received {
+  color: rgb(var(--main-green));
+}
+.paycheck__pending {
+  color: rgb(var(--main-red));
+}
+/* When paid: both expected and received are green */
+.paycheck--paid .paycheck__expected,
+.paycheck--paid .paycheck__received {
+  color: rgb(var(--main-green));
 }
 
+/* Body: shifts (left) + received controls (right) */
+.paycheck__body {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 0.4rem 0.35rem;
+}
+
+/* Shifts list */
 .paycheck__shifts {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  width: 100%;
-  margin-top: 8px;
+  gap: 0.49rem;
+  min-width: 0;
 }
-
 .paycheck__shift {
-  font-size: 14px;
-  color: #374151;
-}
-
-.paycheck__shift strong {
-  color: #1f2937;
-}
-
-.paycheck__notes {
-  font-size: 13px;
-  font-style: italic;
-  color: #6b7280;
-  margin: 8px 0 0;
-}
-
-/* ---------- Amount / actions row ---------- */
-.paycheck__amountReceived {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: baseline;
+  column-gap: 0.5rem;
+  line-height: 1.4;
+  font-size: 0.92rem;
+}
+.paycheck__shift strong {
+  font-weight: 700;
+  color: var(--day-line-name);
+}
+.paycheck__shiftDetail {
+  font-weight: 400;
+  color: var(--day-line-detail);
+}
+.paycheck__notes {
+  margin-top: 0.18rem;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.92rem;
 }
 
+/* Received controls row */
 .paycheck__amount {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  cursor: default;
 }
-
 .paycheck__enterAmount {
-  flex: 1;
-  min-width: 0;
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
+  width: 102px;
+  padding: 9px 11px;
+  border: 1px solid var(--input-border);
   border-radius: 6px;
-  font-size: 14px;
+  background: #ffffff;
+  font-size: 1.02rem;
+  font-weight: 500;
+  text-align: right;
+  color: var(--text);
+  outline: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  transition:
+    border 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.paycheck__enterAmount:focus {
+  border-color: rgb(var(--main-blue));
+  box-shadow: 0 0 0 3px rgba(0, 131, 255, 0.22);
 }
 
+/* Confirm / Clear / Delete buttons */
 .paycheck__confirm,
 .paycheck__clear,
-.paycheck__delete,
-.home__add,
-.home__reload,
-.footer__save,
-.footer__back {
+.paycheck__delete {
+  padding: 8px 14px;
   border: none;
   border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 14px;
+  color: #fff;
   font-weight: 600;
-  color: #ffffff;
+  font-size: 0.9rem;
   cursor: pointer;
+  letter-spacing: 0.2px;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
 }
-
-.paycheck__confirm,
-.home__add,
-.footer__save {
-  background-color: #4caf50;
+.paycheck__confirm {
+  background: rgb(var(--btn-confirm-green));
 }
-
-.paycheck__confirm:hover,
-.home__add:hover,
-.footer__save:hover {
-  background-color: #43a047;
+.paycheck__confirm:hover {
+  background: rgb(58 150 78);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(60, 140, 80, 0.38);
 }
-
-.paycheck__clear,
-.footer__back {
-  background-color: #d9534f;
+.paycheck__clear {
+  background: rgb(var(--btn-clear-red));
 }
-
-.paycheck__clear:hover,
-.footer__back:hover {
-  background-color: #c9302c;
+.paycheck__clear:hover {
+  background: rgb(175 40 55);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(200, 50, 64, 0.35);
 }
-
 .paycheck__delete {
-  background-color: #6b7280;
+  background: #6b7280;
 }
-
 .paycheck__delete:hover {
-  background-color: #4b5563;
+  background: #4b5563;
+  transform: translateY(-1px);
 }
 
+/* ===== Last received dock (fixed bottom-left) ===== */
 .home__lastReceived {
-  background-color: #1e3a8a;
-  color: #ffffff;
-  border-radius: 8px;
-  padding: 10px 14px;
-  margin-bottom: 16px;
+  position: fixed;
+  left: max(0.45rem, env(safe-area-inset-left, 0px));
+  bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+  z-index: 50;
+  max-width: min(14.5rem, 56vw);
+  box-sizing: border-box;
+  padding: 0.85rem 0.95rem 0.9rem 1rem;
+  border-radius: clamp(8px, 1.4vw, 12px);
+  background: var(--notice-bg);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
-
 .home__lastReceivedLabel {
-  margin: 0 0 2px;
-  font-size: 11px;
-  font-weight: 700;
+  display: block;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  opacity: 0.85;
-}
-
-.home__lastReceivedRange {
-  margin: 0;
-  font-size: 14px;
+  font-size: 0.7rem;
   font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35em;
+  opacity: 0.98;
+}
+.home__lastReceivedRange {
+  display: block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  word-wrap: break-word;
 }
 
-/* ---------- Form page ---------- */
-.form {
-  padding: 0 16px 32px;
+/* ===== Add button (fixed bottom-right FAB) ===== */
+.home__buttons {
+  position: fixed;
+  right: max(0.65rem, env(safe-area-inset-right, 0px));
+  bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+  z-index: 50;
+}
+.home__add {
+  width: clamp(52px, 13vw, 60px);
+  height: clamp(52px, 13vw, 60px);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 50%;
+  background: rgb(var(--main-blue));
+  color: #fff;
+  font-size: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.15s ease;
+  position: relative;
+}
+.home__add::before {
+  content: "+";
+  font-size: clamp(28px, 7vw, 34px);
+  font-weight: 400;
+  line-height: 1;
+}
+.home__add:hover {
+  background: rgb(0 120 235);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
 }
 
-.form form {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  padding: 24px;
+/* ===== Form ===== */
+.form > form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: clamp(2.25rem, 3vw, 3rem);
+  padding: clamp(1.5rem, 1.875vw, 2.1rem) clamp(1.125rem, 1.875vw, 1.875rem);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 /* Week range */
+.weekrange {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
 .weekrange__title,
 .notes__title {
-  font-size: 16px;
+  font-size: 1.2rem;
   font-weight: 700;
-  margin: 0 0 10px;
-  color: #1f2937;
+  color: var(--text);
+  letter-spacing: 0.2px;
 }
-
 .weekrange__container {
   display: flex;
+  gap: 0.68rem;
   align-items: center;
-  gap: 10px;
 }
-
 .weekrange__start,
 .weekrange__end {
   flex: 1;
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: #f9fafb;
+  padding: 0.78rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  font-size: 1rem;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  transition:
+    border 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.weekrange__start::-webkit-calendar-picker-indicator,
+.weekrange__end::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+.weekrange__container p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.weekrange__start:focus,
+.weekrange__end:focus {
+  border: 1px solid rgb(var(--main-blue));
+  box-shadow: 0 0 3px 3px rgba(0, 131, 255, 0.2);
+  background: white;
 }
 
-/* Days worked */
-[class^="day"] {
+/* ===== Days worked grid ===== */
+.day {
+  display: grid;
+  grid-template-columns: clamp(48px, 12vw, 55px) repeat(3, 1fr);
+  gap: clamp(5px, 1.2vw, 7px);
+  align-items: stretch;
+  margin-bottom: 7px;
+}
+.day__title {
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  font-weight: 500;
+  letter-spacing: 0.2px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
 }
-
-.day__title {
-  width: 48px;
-  margin: 0;
-  font-weight: 700;
-  color: #1f2937;
-}
-
 .day__lunch,
 .day__dinner,
 .day__full {
-  flex: 1;
-  padding: 10px 0;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background-color: #f3f4f6;
-  font-weight: 600;
-  font-size: 14px;
-  color: #374151;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: clamp(40px, 10.5vw, 48px);
+  padding: clamp(9px, 2.2vw, 11px) clamp(3px, 1vw, 4px);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  font-size: clamp(0.82rem, 2.2vw, 0.93rem);
   cursor: pointer;
+  color: var(--text-soft);
+  font-weight: 500;
+  transition: all 0.15s ease;
+  user-select: none;
 }
-
 .day__lunch:hover,
 .day__dinner:hover,
 .day__full:hover {
-  background-color: #e5e7eb;
+  background: #e6e8f2;
+  border-color: #a8b0c8;
+  color: var(--text);
+  transform: translateY(-1px);
 }
-
 .day__lunch.day__active,
 .day__dinner.day__active,
 .day__full.day__active {
-  background-color: #4f7cff;
-  border-color: #4f7cff;
-  color: #ffffff;
+  background: rgb(var(--main-blue));
+  color: white;
+  border-color: rgb(var(--main-blue));
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 131, 255, 0.35);
 }
 
-/* Tips */
+/* ===== Tips section ===== */
 .tips {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  padding: 13px 16px;
+  background: #f7f8fc;
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  gap: 0.75rem;
+  margin-bottom: 7px;
 }
-
 .tips__dayInfo {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 0.5rem;
+  min-width: 0;
 }
-
 .tips__day {
-  margin: 0;
-  font-weight: 700;
-  color: #1f2937;
-}
-
-.tips__shift {
-  margin: 0;
-  font-size: 14px;
-  color: #6b7280;
-}
-
-.tips__amountInfo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.tips__amountLabel {
-  margin: 0;
   font-weight: 600;
-  color: #1f2937;
+  font-size: 1rem;
+  color: var(--text);
 }
-
+.tips__shift {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.tips__amountInfo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.tips__amountLabel {
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  font-weight: 500;
+  white-space: nowrap;
+}
 .tips__amount {
-  width: 90px;
-  padding: 8px 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 14px;
+  width: 105px;
+  padding: 9px 12px;
+  border: 1px solid #cfd9f0;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 0.98rem;
+  text-align: right;
+  color: var(--text);
+  outline: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  transition:
+    border 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.tips__amount:focus {
+  border-color: rgb(var(--main-blue));
+  box-shadow: 0 0 0 3px rgba(0, 131, 255, 0.2);
 }
 
-/* Notes */
+/* ===== Notes ===== */
+.notes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
 .notes__input {
   width: 100%;
-  min-height: 90px;
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 14px;
+  min-height: 80px;
+  padding: 0.78rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  font-size: 1rem;
+  color: var(--text);
+  outline: none;
   resize: vertical;
+  transition:
+    border 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.notes__input:focus {
+  border: 1px solid rgb(var(--main-blue));
+  box-shadow: 0 0 3px 3px rgba(0, 131, 255, 0.2);
+  background: white;
 }
 
-/* Expected pay */
+/* ===== Expected pay summary ===== */
 .expectedPay {
-  font-size: 18px;
+  background: rgba(0, 131, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
   font-weight: 700;
-  color: #1e3a8a;
-  text-align: right;
-  margin: 0;
+  text-align: center;
+  font-size: clamp(1rem, 0.6rem + 1vw, 1.2rem);
+  color: rgb(var(--main-blue));
 }
 
-/* Footer */
+/* ===== Footer (Save button) ===== */
 .footer {
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
+}
+.footer__save {
+  flex: 1;
+  padding: clamp(0.68rem, 2.2vw, 0.9rem) clamp(1.1rem, 3vw, 2rem);
+  border: none;
+  border-radius: 8px;
+  background: rgb(var(--main-blue));
+  color: white;
+  font-weight: 600;
+  font-size: clamp(0.95rem, 2.4vw, 1.05rem);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.footer__save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Mobile responsive ===== */
+@media (max-width: 720px) {
+  .paycheck__mainInfo {
+    grid-template-columns: 1fr auto;
+    row-gap: 0.5rem;
+  }
+  .paycheck__week {
+    grid-column: 1 / 2;
+    grid-row: 1;
+  }
+  .paycheck__pending,
+  .paycheck__received {
+    grid-column: 2 / 3;
+    grid-row: 1;
+  }
+  .paycheck__expected {
+    grid-column: 1 / 3;
+    grid-row: 2;
+    text-align: left;
+  }
+  .paycheck__body {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .paycheck__amount {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 520px) {
+  .home,
+  .form {
+    padding: clamp(1rem, 4vw, 1.5rem) 0.6rem;
+  }
+  /* Extra bottom room so fixed dock + FAB never cover card buttons */
+  body {
+    padding-bottom: 7.5rem;
+  }
+  .home__lastReceived {
+    max-width: min(12.5rem, 58vw);
+    padding: 0.72rem 0.8rem 0.75rem 0.82rem;
+  }
+  .home__lastReceivedRange {
+    font-size: 0.88rem;
+  }
+  .tips__amount {
+    width: 90px;
+  }
+  .paycheck__enterAmount {
+    width: 90px;
+  }
+  .paycheck {
+    padding: 1rem;
+  }
+  .paycheck__week {
+    font-size: 1.05rem;
+  }
+  .paycheck__expected,
+  .paycheck__received,
+  .paycheck__pending {
+    font-size: 0.98rem;
+  }
+  .paycheck__shift {
+    font-size: 0.88rem;
+  }
+  /* Day grid: keep label, shrink shift buttons */
+  .day {
+    grid-template-columns: clamp(42px, 11vw, 52px) repeat(3, 1fr);
+    gap: 5px;
+  }
+  .day__lunch,
+  .day__dinner,
+  .day__full {
+    font-size: 0.8rem;
+    min-height: 42px;
+  }
+  /* Tips row can wrap on very tight widths */
+  .tips {
+    padding: 11px 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .home__lastReceived {
+    max-width: min(10.5rem, 64vw);
+    padding: 0.6rem 0.65rem 0.65rem 0.68rem;
+  }
+  .home__lastReceivedLabel {
+    font-size: 0.62rem;
+  }
+  .home__lastReceivedRange {
+    font-size: 0.82rem;
+  }
+  /* Card action buttons wrap and go full-row if needed */
+  .paycheck__amount {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .paycheck__enterAmount {
+    width: 100%;
+    text-align: left;
+  }
+  .paycheck__confirm,
+  .paycheck__clear,
+  .paycheck__delete {
+    flex: 1;
+    padding: 8px 10px;
+  }
+  /* Tips: stack day-info above the input on tiny screens */
+  .tips {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .tips__amountInfo {
+    justify-content: flex-end;
+  }
+  .tips__amount {
+    width: 110px;
+  }
+  /* Week range stacks vertically */
+  .weekrange__container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+  }
+  .weekrange__container p {
+    text-align: center;
+  }
+  .app__home {
+    font-size: 0.82rem;
+    padding: 6px 0.7rem;
+  }
+  .content__logo {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 340px) {
+  .day {
+    grid-template-columns: 38px repeat(3, 1fr);
+    gap: 4px;
+  }
+  .day__lunch,
+  .day__dinner,
+  .day__full {
+    font-size: 0.74rem;
+    padding: 9px 2px;
+  }
+  .home__lastReceived {
+    max-width: min(8.5rem, 70vw);
+  }
 }

@@ -1,7 +1,9 @@
 const Day = (props) => {
+  const shifts = props.shifts;
   const setShifts = props.setShifts;
 
   const allWeekDays = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"];
+
   const handleLunch = (day) => {
     setShifts((prev) => ({ ...prev, [day]: "Lunch" }));
   };
@@ -14,26 +16,30 @@ const Day = (props) => {
 
   return allWeekDays.map((day) => {
     return (
-      <div className={`day${day}`}>
+      <div className="day" key={day}>
         <p className="day__title">{day}</p>
         <button
-          className="day__lunch"
+          className={
+            shifts[day] === "Lunch" ? "day__lunch day__active" : "day__lunch"
+          }
           type="button"
           onClick={() => handleLunch(day)}
         >
           Lunch
         </button>
         <button
-          className="day__dinner"
+          className={
+            shifts[day] === "Dinner" ? "day__dinner day__active" : "day__dinner"
+          }
           type="button"
-          onClick={() => {
-            handleDinner(day);
-          }}
+          onClick={() => handleDinner(day)}
         >
           Dinner
         </button>
         <button
-          className="day__full"
+          className={
+            shifts[day] === "Full" ? "day__full day__active" : "day__full"
+          }
           type="button"
           onClick={() => handleFull(day)}
         >

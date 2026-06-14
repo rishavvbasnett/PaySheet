@@ -7,18 +7,35 @@ import Footer from "./Footer.jsx";
 import api from "../../services/api.js";
 import ExpectedPay from "./ExpectedPay";
 
-const Form = ({ setCurrentPage, setRecords }) => {
-  const [weekStart, setWeekStart] = useState("");
-  const [weekEnd, setWeekEnd] = useState("");
-  const [shifts, setShifts] = useState({});
-  const [tips, setTips] = useState({});
-  const [notes, setNotes] = useState("");
-  const [expectedPay, setExpectedPay] = useState(0);
+const Form = ({
+  setCurrentPage,
+  setRecords,
+  editingPaycheck,
+  setEditingPaycheck,
+}) => {
+  const [weekStart, setWeekStart] = useState(editingPaycheck?.weekStart || "");
+  const [weekEnd, setWeekEnd] = useState(editingPaycheck?.weekEnd || "");
+  const [shifts, setShifts] = useState(editingPaycheck?.shifts || {});
+  const [tips, setTips] = useState(editingPaycheck?.tips || {});
+  const [notes, setNotes] = useState(editingPaycheck?.notes || "");
+  const [expectedPay, setExpectedPay] = useState(
+    editingPaycheck?.expected || 0,
+  );
+
+  const resetForm = () => {
+    setWeekStart("");
+    setWeekEnd("");
+    setShifts({});
+    setTips({});
+    setNotes("");
+    setEditingPaycheck(null);
+    setCurrentPage("homepage");
+  };
 
   const handleSave = (event) => {
     event.preventDefault();
-    console.log("SUMITTED THE FORM");
-    const PaycheckObject = {
+
+    const paycheckObject = {
       weekStart,
       weekEnd,
       shifts,
@@ -26,22 +43,25 @@ const Form = ({ setCurrentPage, setRecords }) => {
       notes,
       expected: expectedPay,
     };
-    console.log(PaycheckObject);
-    api.postPaycheck(PaycheckObject).then((returnedPaycheck) => {
-      console.log(returnedPaycheck);
-      setRecords((prev) => [...prev, returnedPaycheck]);
-    });
 
-    setWeekStart("");
-    setWeekEnd("");
-    setShifts({});
-    setTips({});
-    setNotes("");
-    setCurrentPage("homepage");
-  };
-
-  const handleBack = () => {
-    setCurrentPage("homepage");
+    if (editingPaycheck) {
+      paycheckObject.received = editingPaycheck.received;
+      api
+        .updatePaycheck(editingPaycheck.id, paycheckObject)
+        .then((editedPaycheck) => {
+          setRecords((prev) =>
+            prev.map((record) =>
+              record.id === editingPaycheck.id ? editedPaycheck : record,
+            ),
+          );
+          resetForm();
+        });
+    } else {
+      api.postPaycheck(paycheckObject).then((returnedPaycheck) => {
+        setRecords((prev) => [...prev, returnedPaycheck]);
+        resetForm();
+      });
+    }
   };
 
   return (
@@ -62,11 +82,7 @@ const Form = ({ setCurrentPage, setRecords }) => {
           tips={tips}
           setExpectedPay={setExpectedPay}
         />
-        <Footer
-          handleSave={handleSave}
-          handleBack={handleBack}
-          setCurrentPage={setCurrentPage}
-        />
+        <Footer handleSave={handleSave} />
       </form>
     </div>
   );
