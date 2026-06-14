@@ -12,12 +12,34 @@ const Home = (props) => {
     setCurrentPage("formpage");
   };
 
+  const received = records.filter((paycheck) => paycheck.received != null);
+  const lastReceived = received.sort(
+    (a, b) => new Date(b.weekEnd) - new Date(a.weekEnd),
+  )[0];
+
+  const formatDate = (dateString) =>
+    new Date(dateString + "T00:00:00").toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+
   return (
     <div className="home">
       <Header text="Your Weekly Pay" />
+      {lastReceived ? (
+        <div className="home__lastReceived">
+          <p className="home__lastReceivedLabel">Last Received</p>
+          <p className="home__lastReceivedRange">
+            {formatDate(lastReceived.weekStart)} -{" "}
+            {formatDate(lastReceived.weekEnd)}
+          </p>
+        </div>
+      ) : (
+        ""
+      )}
       <div className="home__paycheck">
         {records.map((paycheck) => {
-          console.log(records);
           return (
             <Paycheck
               key={paycheck.id}

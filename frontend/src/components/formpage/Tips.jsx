@@ -12,10 +12,10 @@ const Tips = (props) => {
   return Object.entries(shifts).map(([day, shift]) => {
   
     return (
-      <div className="tips">
-        <div tips="tips__dayInfo">
-          <p className={`tips__${day}`}>{day}</p>
-          <p className={`tips__${shift}`}>{shift}</p>
+      <div className="tips" key={day}>
+        <div className="tips__dayInfo">
+          <p className="tips__day">{day}</p>
+          <p className="tips__shift">{shift}</p>
         </div>
         <div className="tips__amountInfo">
           <p className="tips__amountLabel">Tips: </p>

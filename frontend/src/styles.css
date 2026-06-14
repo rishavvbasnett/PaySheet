@@ -1,0 +1,376 @@
+* {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: #f4f6fa;
+  color: #1f2937;
+}
+
+.app {
+  max-width: 700px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: #f4f6fa;
+}
+
+/* ---------- Logo / Top bar ---------- */
+.content__logo {
+  background-color: #4f7cff;
+  color: #ffffff;
+  text-align: center;
+  margin: 0;
+  padding: 24px 16px;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+/* ---------- Header (page titles) ---------- */
+.content__header {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 24px 0;
+}
+
+/* ---------- Home page ---------- */
+.home {
+  padding: 0 16px 24px;
+}
+
+.home__paycheck {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.home__buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* ---------- Paycheck card ---------- */
+.paycheck {
+  background-color: #ffffff;
+  border-radius: 10px;
+  border-left: 6px solid #d9534f;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 16px 20px;
+}
+
+.paycheck:has(.paycheck__received) {
+  border-left-color: #4caf50;
+}
+
+.paycheck__mainInfo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.paycheck__week {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.paycheck__expected {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.paycheck:has(.paycheck__received) .paycheck__expected {
+  color: #2e7d32;
+}
+
+.paycheck__received {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2e7d32;
+}
+
+.paycheck__pending {
+  font-size: 14px;
+  font-weight: 700;
+  color: #d9534f;
+}
+
+.paycheck__shifts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.paycheck__shift {
+  font-size: 14px;
+  color: #374151;
+}
+
+.paycheck__shift strong {
+  color: #1f2937;
+}
+
+.paycheck__notes {
+  font-size: 13px;
+  font-style: italic;
+  color: #6b7280;
+  margin: 8px 0 0;
+}
+
+/* ---------- Amount / actions row ---------- */
+.paycheck__amountReceived {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.paycheck__amount {
+  display: flex;
+  gap: 8px;
+}
+
+.paycheck__enterAmount {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.paycheck__confirm,
+.paycheck__clear,
+.paycheck__delete,
+.home__add,
+.home__reload,
+.footer__save,
+.footer__back {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.paycheck__confirm,
+.home__add,
+.footer__save {
+  background-color: #4caf50;
+}
+
+.paycheck__confirm:hover,
+.home__add:hover,
+.footer__save:hover {
+  background-color: #43a047;
+}
+
+.paycheck__clear,
+.footer__back {
+  background-color: #d9534f;
+}
+
+.paycheck__clear:hover,
+.footer__back:hover {
+  background-color: #c9302c;
+}
+
+.paycheck__delete {
+  background-color: #6b7280;
+}
+
+.paycheck__delete:hover {
+  background-color: #4b5563;
+}
+
+.home__lastReceived {
+  background-color: #1e3a8a;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+.home__lastReceivedLabel {
+  margin: 0 0 2px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
+}
+
+.home__lastReceivedRange {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ---------- Form page ---------- */
+.form {
+  padding: 0 16px 32px;
+}
+
+.form form {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Week range */
+.weekrange__title,
+.notes__title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 10px;
+  color: #1f2937;
+}
+
+.weekrange__container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.weekrange__start,
+.weekrange__end {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #f9fafb;
+}
+
+/* Days worked */
+[class^="day"] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.day__title {
+  width: 48px;
+  margin: 0;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.day__lunch,
+.day__dinner,
+.day__full {
+  flex: 1;
+  padding: 10px 0;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #f3f4f6;
+  font-weight: 600;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.day__lunch:hover,
+.day__dinner:hover,
+.day__full:hover {
+  background-color: #e5e7eb;
+}
+
+.day__lunch.day__active,
+.day__dinner.day__active,
+.day__full.day__active {
+  background-color: #4f7cff;
+  border-color: #4f7cff;
+  color: #ffffff;
+}
+
+/* Tips */
+.tips {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.tips__dayInfo {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.tips__day {
+  margin: 0;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.tips__shift {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.tips__amountInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tips__amountLabel {
+  margin: 0;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.tips__amount {
+  width: 90px;
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Notes */
+.notes__input {
+  width: 100%;
+  min-height: 90px;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  resize: vertical;
+}
+
+/* Expected pay */
+.expectedPay {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e3a8a;
+  text-align: right;
+  margin: 0;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
