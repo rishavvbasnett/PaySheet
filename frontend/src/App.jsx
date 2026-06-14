@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Logo from "./components/Logo";
 import Home from "./components/homepage/Home";
 import api from "./services/api.js";
@@ -16,9 +16,9 @@ const App = () => {
 
   const renderPage = () => {
     if (currentPage == "homepage") {
-      return <Home records={records} setCurrentPage={setCurrentPage} />;
+      return <Home records={records} setRecords={setRecords} setCurrentPage={setCurrentPage} />;
     } else if (currentPage == "formpage") {
-      return <Form />;
+      return <Form setCurrentPage={setCurrentPage} setRecords={setRecords} />;
     }
   };
 

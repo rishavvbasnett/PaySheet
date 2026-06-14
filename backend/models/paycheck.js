@@ -8,18 +8,11 @@ mongoose
 
 /* Paycheck Scehma */
 const paycheckSchema = new mongoose.Schema({
-  week: String,
-  shifts: {
-    Sun: String,
-    Mon: String,
-    Tue: String,
-  },
-  tips: {
-    Sun: Number,
-    Mon: Number,
-    Tue: Number,
-  },
-  paid: Boolean,
+  weekStart: String,
+  weekEnd: String,
+  shifts: Object,
+  tips: Object,
+  notes: String,
   expected: Number,
   received: {
     type: Number,

@@ -8,16 +8,15 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mockPaychecks();
-
 /* Route handlers */
 app.get("/api/paysheet", (req, res) => {
   Paycheck.find({}).then((paychecks) => res.json(paychecks));
 });
 
 app.post("/api/paysheet", (req, res) => {
+  console.log("Before: ", req.body);
   const paycheckDocument = new Paycheck(req.body);
-  console.log(paycheckDocument);
+  console.log("after", paycheckDocument);
   paycheckDocument.save().then((savedPaycheck) => res.json(savedPaycheck));
 });
 
@@ -28,58 +27,172 @@ app.delete("/api/paysheet/:id", (req, res) => {
   );
 });
 
+app.put("/api/paysheet/:id", (req, res) => {
+  const sentPaycheckId = req.params.id;
+  const sentPaycheck = req.body;
+
+  console.log(sentPaycheckId);
+  Paycheck.findByIdAndUpdate(sentPaycheckId, sentPaycheck, {new: true}).then(
+    (updatedPaycheck) => {
+      console.log(updatedPaycheck)
+      res.json(updatedPaycheck);
+    },
+  );
+});
 const PORT = process.env.PORT;
 app.listen(PORT);
 
 function errorHandler(error, req, res, next) {}
 
 /* function that saves 5 mock Paychecks in the Database*/
-function mockPaychecks() {
+function makeSamplePayChecks() {
   Paycheck.find({}).then((allPaychecks) => {
     if (allPaychecks.length < 1) {
-      const examplePaychecks = [
+      const samplePaychecks = [
         {
-          week: "May 20, 2026 - May 26, 2026",
-          shifts: { Mon: "Full", Tue: "Dinner", Fri: "Full", Sat: "Dinner" },
-          tips: { Mon: 120, Tue: 85, Fri: 145, Sat: 200 },
-          paid: false,
-          expected: 650,
+          weekStart: "2026-06-01",
+          weekEnd: "2026-06-07",
+          shifts: {
+            Sun: "Full Day",
+            Mon: "Dinner",
+          },
+          tips: {
+            Sun: 180,
+            Mon: 95,
+          },
+          expected: 425,
           received: null,
         },
         {
-          week: "May 27, 2026 - Jun 2, 2026",
-          shifts: { Wed: "Dinner", Thu: "Full", Sat: "Full", Sun: "Dinner" },
-          tips: { Wed: 95, Thu: 130, Sat: 180, Sun: 110 },
-          paid: true,
-          expected: 720,
-          received: 720,
+          weekStart: "2026-06-08",
+          weekEnd: "2026-06-14",
+          shifts: {
+            Sun: "Lunch",
+            Mon: "Full Day",
+            Tue: "Dinner",
+          },
+          tips: {
+            Sun: 75,
+            Mon: 210,
+            Tue: 120,
+          },
+          expected: 645,
+          received: 640,
         },
         {
-          week: "Jun 3, 2026 - Jun 9, 2026",
-          shifts: { Mon: "Dinner", Fri: "Full", Sat: "Full", Sun: "Full" },
-          tips: { Mon: 90, Fri: 160, Sat: 210, Sun: 175 },
-          paid: false,
-          expected: 800,
+          weekStart: "2026-06-15",
+          weekEnd: "2026-06-21",
+          shifts: {
+            Sun: "Dinner",
+            Tue: "Full Day",
+          },
+          tips: {
+            Sun: 135,
+            Tue: 240,
+          },
+          expected: 575,
+          received: 575,
+        },
+        {
+          weekStart: "2026-06-22",
+          weekEnd: "2026-06-28",
+          shifts: {
+            Mon: "Lunch",
+            Tue: "Dinner",
+          },
+          tips: {
+            Mon: 80,
+            Tue: 145,
+          },
+          expected: 385,
           received: null,
         },
         {
-          week: "Jun 10, 2026 - Jun 16, 2026",
-          shifts: { Tue: "Full", Wed: "Dinner", Thu: "Full", Sat: "Dinner" },
-          tips: { Tue: 140, Wed: 100, Thu: 155, Sat: 190 },
-          paid: true,
-          expected: 740,
-          received: 700,
+          weekStart: "2026-06-29",
+          weekEnd: "2026-07-05",
+          shifts: {
+            Sun: "Full Day",
+            Tue: "Dinner",
+          },
+          tips: {
+            Sun: 260,
+            Tue: 110,
+          },
+          expected: 610,
+          received: 600,
         },
         {
-          week: "Jun 17, 2026 - Jun 23, 2026",
-          shifts: { Mon: "Full", Thu: "Dinner", Fri: "Full", Sun: "Dinner" },
-          tips: { Mon: 125, Thu: 95, Fri: 170, Sun: 130 },
-          paid: false,
-          expected: 690,
+          weekStart: "2026-07-06",
+          weekEnd: "2026-07-12",
+          shifts: {
+            Sun: "Lunch",
+            Mon: "Dinner",
+            Tue: "Dinner",
+          },
+          tips: {
+            Sun: 90,
+            Mon: 125,
+            Tue: 140,
+          },
+          expected: 555,
+          received: 555,
+        },
+        {
+          weekStart: "2026-07-13",
+          weekEnd: "2026-07-19",
+          shifts: {
+            Mon: "Full Day",
+          },
+          tips: {
+            Mon: 230,
+          },
+          expected: 350,
+          received: null,
+        },
+        {
+          weekStart: "2026-07-20",
+          weekEnd: "2026-07-26",
+          shifts: {
+            Sun: "Dinner",
+            Mon: "Dinner",
+            Tue: "Full Day",
+          },
+          tips: {
+            Sun: 150,
+            Mon: 130,
+            Tue: 250,
+          },
+          expected: 770,
+          received: 770,
+        },
+        {
+          weekStart: "2026-07-27",
+          weekEnd: "2026-08-02",
+          shifts: {
+            Sun: "Full Day",
+            Mon: "Lunch",
+          },
+          tips: {
+            Sun: 275,
+            Mon: 85,
+          },
+          expected: 600,
+          received: 590,
+        },
+        {
+          weekStart: "2026-08-03",
+          weekEnd: "2026-08-09",
+          shifts: {
+            Tue: "Dinner",
+          },
+          tips: {
+            Tue: 155,
+          },
+          expected: 235,
           received: null,
         },
       ];
-      examplePaychecks.forEach((paycheck) => {
+      samplePaychecks.forEach((paycheck) => {
         new Paycheck(paycheck).save();
       });
     } else {
